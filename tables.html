@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Star Wars - Express</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">Hot Restaurant</h1>
+            <h3 class="text-center">Current Reservations and Waiting List</h3>
+            <hr>
+            <div class="text-center">
+                <a href="/reserve"><button class="btn btn-danger btn-lg "><span class="fa fa-fire"></span> Make A
+                        Reservation</button></a>
+                <a href="/"><button class="btn btn-secondary btn-lg"><span class="fa fas-home"></span> Home</button></a>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4><strong>Current Reservations</strong></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4><strong> Table 1</strong></h4>
+                            </div>
+                            <div class="card-body">
+                                <ul id="reservation"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4><strong>Waiting List</strong></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4><strong> Table 2</strong></h4>
+                            </div>
+                            <div class="card-body">
+                                <ul id="waitList"></ul>
+                            </div>
+                            <!-- <h3 id="name"></h3> -->
+                            <div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $.get("/api/tables", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i]);
+                var listGroupItem = $("<li class='list-group-item'>");
+
+                listGroupItem.append($("<h2>").text("Customer Name: " + data[i].customerName));
+                listGroupItem.append($("<h3>").text("Phone Number: " + data[i].phoneNumber));
+                listGroupItem.append($("<h3>").text("Customer Email: " + data[i].customerEmail));
+                listGroupItem.append($("<h3>").text("Customer ID: " + data[i].customerID));
+
+                $("#reservation").append(listGroupItem);
+            }
+        });
+
+        $.get("/api/waitlist", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i]);
+                var listGroupItem = $("<li class='list-group-item'>");
+
+                listGroupItem.append($("<h2>").text("Customer Name: " + data[i].customerName));
+                listGroupItem.append($("<h3>").text("Phone Number: " + data[i].phoneNumber));
+                listGroupItem.append($("<h3>").text("Customer Email: " + data[i].customerEmail));
+                listGroupItem.append($("<h3>").text("Customer ID: " + data[i].customerID));
+
+                $("#waitList").append(listGroupItem);
+            }
+        });
+    </script>
+
+    <!-- <script type="text/javascript">
+        $("#search-btn").on("click", function () {
+
+            // Using a RegEx Pattern to remove spaces from searchedCharacter
+            // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+            searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
+
+            $.get("/api/characters/" + searchedCharacter, function (data) {
+                console.log(data);
+                if (data) {
+                    $("#stats").show();
+                    $("#name").text(data.name);
+                    $("#role").text(data.role);
+                    $("#age").text(data.age);
+                }
+                else {
+                    $("#name").text("The force is not strong with this one. Your character was not found.");
+                    $("#stats").hide();
+                }
+            });
+        });
+    </script> -->
+
+</body>
+
+</html>
